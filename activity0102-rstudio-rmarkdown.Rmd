@@ -2,7 +2,11 @@
 title: "Activity 1.2 - RStudio and R Markdown"
 author: "Alyssa Hawker"
 date: "8/26/2019"
-output: html_document
+output: 
+  html_document: 
+    fig_height: 7
+    highlight: haddock
+    theme: yeti
 ---
 
 ### Load packages
@@ -35,7 +39,7 @@ And next calculate the correlation between `x` and `y` in this dataset:
 dino_data %>%
   summarize(r = cor(x, y))
 ```
-ANSWER: The correlation between `x` and `y` in this dataset is r = -0.06447185	
+ANSWER: The correlation between `x` and `y` in this dataset is r = -0.06447185 which is a very weak negative correlation.
 
 
 ### Exercise 3
@@ -59,7 +63,7 @@ star_data %>%
 
 ```
 
-ANSWER: The correlation between `x` and `y` in this star dataset is r = -0.0629611 which is very similar to the dino dataset (r = -0.06447185).	
+ANSWER: The correlation between `x` and `y` in this star dataset is r = -0.0629611 which is also a very weak negative correlation and similar to the dino dataset (r = -0.06447185).	
 
 ### Exercise 4
 
@@ -81,8 +85,30 @@ circle_data %>%
   summarize(r = cor(x, y))
 ```
 
-ANSWER: The correlation between `x` and `y` in this circle dataset is r = -0.06834336	 which is also similar to the dino dataset (r = -0.06447185).	
+ANSWER: The correlation between `x` and `y` in this circle dataset is r = -0.06834336	which is very weak and also similar to the dino dataset (r = -0.06447185).	
 
 ### Exercise 5
 
-(Add code and narrative as needed. To add R chunks either type out the backticks, curly braces, and the letter `r` or use the Insert chunk button above, green C+.)
+Plotting the data in the entire datasaurus_dozen dataset:
+
+```{r plot-all}
+ggplot(data = datasaurus_dozen, aes(x = x, y = y, color = dataset)) +
+  geom_point() +
+  facet_wrap(~ dataset, ncol = 3) +
+  theme(legend.position = "none")
+```
+
+Calculating the correlation between `x` and `y` for each group in the entire datasaurus_dozen dataset:
+
+```{r corr-all}
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarize(r = cor(x, y)) %>%
+  print(13)
+
+```
+
+
+All of the groups in the datasaurus dataset have correlations of r ~ -0.06. These are all very weak negative correlations that could basically be considered to be no correlation at all. This makes sense because the plots are all just fun images and not a relationship between two variables where a trend can be analyzed.
+
+
